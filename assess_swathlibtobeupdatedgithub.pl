@@ -354,13 +354,13 @@ for my $irt ( qw( ADVTPADFSEWSK DGLDAASYYAPVR GAGSSEPVTGLDAK GTFIIDPAAVIR GTFIID
 
 # Hash of recognized neutral losses to their masses.
 my %losses = ( 'H2O' => 18.010565,
-               '1(+C+H4+O+S)' => 64.107989,	
+               '1(+C+H4+O+S)' => 64.107989,
                'NH3' => 17.026549,
                'noloss' => 0,
-			   '-17' => 17.026549,
+	       '-17' => 17.026549,
                '-18' => 18.010565,
-	           '-64' => 64.107989
-			); 
+	       '-64' => 64.107989
+); 
 
 my %decoy = ( mixed => 0, decoy => 0, fwd => 0);
 my %extrema = ( precursor_min => 10000, fragment_min => 10000, precursor_max => 0, fragment_max => 0 );
@@ -412,7 +412,7 @@ while ( my $line = <ILIB> ) {
       $cmap{$col} = $idx++;
     }
     if ( !$line[1] ) {
-      print STDERR "Error: $ARGV[0] format invalid \n";
+      print STDERR "Error: $ARGV[0] format invalid\n";
     } elsif ( $line =~ /[Q1 q1]/ && ($line =~ /modification_sequence/ || $line =~ /peptideModSeq/)) {
       $type = 'pv';
       print STDERR "Peakview library detected\n";
@@ -477,7 +477,7 @@ while ( my $line = <ILIB> ) {
     }
   }
 
-  ##  Extract assay-related data based on library type
+  ##  Extract assay-related data based on library type Decoy_9_y9_1_AAAAAAAAAAGAAGGR_2 or 9_y9_1_AAAAAAAAAAGAAGGR_2
 
   # Precursor charge
   my $pre_z = $line[$idx{pre_z}];
@@ -766,7 +766,7 @@ TITLE=$pepkey
 
       my $pmz = get_peptide_mass( $eseq, $pchg, 1 );
       my $ions = generate_ions( $pseq );
-	  #print "IONHASH: $pseq\t";
+      #print "IONHASH: $pseq\t";
       #print Dumper(\$ions);
       for ( my $fchg = 1; $fchg <= 7; $fchg++ ) {    ##7 is maximum fragment charge we consider usually it is upto 3
         for my $yion ( keys( %{$ions->{y}} ) ) {
@@ -818,10 +818,10 @@ TITLE=$pepkey
       if ( $lossType ) {
         $tmz -= $losses{$lossType}/$frg_z;
       }
-	   if ( $LTOS ) { 
+      if ( $LTOS ) { 
         $tmz -= $losses{$LTOS}/$frg_z;
       }
-	  
+
       my $tdelta = abs( $tmz - $fragment );
       $stats{delta_cnt}++;
       $stats{delta_sum} += $tdelta;
@@ -1040,7 +1040,7 @@ for my $type ( qw( sing mult ) ) {
     $stats{$type}->{pepcnt}++;
     my $tpep = $pep;
     $tpep =~ s/\[[^]]+\]//g;
-	  $tpep =~ s/\([^)]+\)//g;
+    $tpep =~ s/\([^)]+\)//g;
     $tpep =~ s/\d//g;
     $tpep =~ s/_//g;
     $tpep =~ s/-//g;
@@ -1541,7 +1541,7 @@ $stats{mpeps} = scalar( keys( %{$seen{mpeps}} ) );
 		}
 		$ion_s =~ s/[-17 -18 -64]//g; #get rid of the -17, -18, -64 
 
-        my $ion_n = $line[$idx{ion_n}];
+		my $ion_n = $line[$idx{ion_n}];
         my $mseq = $line[$idx{mseq}];
         $mseq =~ s/^_//g;
         $mseq =~ s/_$//g;
@@ -1552,7 +1552,7 @@ $stats{mpeps} = scalar( keys( %{$seen{mpeps}} ) );
         my $eseq = encode_modifications( $mseq );
         my $pmz = get_peptide_mass( $eseq, $pre_z );
         my $imz = $massmap{$pepkey}->{$precursor}->{peaks}->{$ion_key};
-		
+
         # Adjust for neutral losses (if any)
         $imz -= $losses{$lossType}/$frg_z if ( $lossType );
 		$imz -= $losses{$LTOS}/$frg_z if ( $LTOS );
@@ -1639,8 +1639,8 @@ $stats{mpeps} = scalar( keys( %{$seen{mpeps}} ) );
   my $pepsing = $peps{sing}; 
   my $pepmult = $peps{mult};
   my %pepchg;
-  my @pep = (keys %{$pepsing}, keys %{$pepmult}); #works with all perl versions 
-  foreach $_(@pep){ #works with all perl versions
+ my @pep = (keys %{$pepsing}, keys %{$pepmult}); #works with all perl versions 
+ foreach $_(@pep){ #works with all perl versions
     my ( $mseq, $chg ) = split( /_/, $_ ); #works with all perl versions
     $pepchg{$chg}++;
   }
@@ -1844,7 +1844,7 @@ sub read_options {
                   N => 114.04293,
                   Y => 163.06333,
                   W => 186.07931,
-				  X => 0
+		          X => 0
 		};
    
   my $err = '';
@@ -1868,7 +1868,7 @@ sub read_options {
   # Determine filename base
   if ( !$opts{output_file} ) {
     if ( -t STDOUT ) {
-      my $qc = "$opts{ion_library}.QC";
+      my $qc = "$opts{ion_library}.QC.tsv";
       if ( -e $qc ) {
         print STDERR "QC file $qc exists, cannot overwrite - printing to STDOUT\n";
       } else {
@@ -2021,9 +2021,9 @@ decoy_pct => 'Percentage of decoy (optionally includes "alternative", non-db dec
 mixed_pct => 'Percentage of mixed decoy/target (has both decoy and no-decoy annotations) assays',
 fwd_pct => 'Percentage of target (non-decoy) assays',
 precursor_ok => 'Number of assays where precursor is within 5 PPM (parts per million m/z) of theoretical',
-precursor_bad => 'Number of assays where fragment is more than 5 PPM from theoretical',
+precursor_bad => 'Number of assays where precursor is more than 5 PPM from theoretical',
 fragment_ok => 'Number of assays where fragment is within 1 PPM of theoretical',
-fragment_bad => 'Number of assays where precursor is more than 1 PPM from theoretical',
+fragment_bad => 'Number of assays where fragment is more than 1 PPM from theoretical',
 fragment_na => 'Number of assays where peak annotation not found in expected b/y series',
 fragment_avg_mdiff => 'Average m/z difference between reported and theoretical fragment',
 swa_defined => 'Number of peptide ions that fall into a defined SWATH bin ',
@@ -2362,5 +2362,5 @@ __DATA__
 # 13    FragmentSeriesNumber [ 3 ]
 # 14    IsDecoy [ 0 ]
 # 15    quantifying_transition [ 1 ]
-# 
-#EOF
+#
+#EOF 
