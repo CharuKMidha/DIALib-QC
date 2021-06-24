@@ -384,6 +384,8 @@ my %tmax;
 my $osw_altmod = 0;
 my $is_CSV;
 my $quote_char = '';
+my @imarray;
+my @imsort;
 while ( my $line = <ILIB> ) {
   chomp $line;
   my @line = parse_line( $line );
@@ -464,6 +466,7 @@ while ( my $line = <ILIB> ) {
     $idx{decoy} = find_index( ['decoy'], 'Decoy',1 ); 
     $idx{lossType} = find_index( [qw( FragmentLossType ) ], 'Fragment neutral loss', 1 ); 
     $idx{transition_name} = find_index( ['transition_name'], 'transition_name',1 );
+    $idx{IonMobility} = find_index( ['IonMobility'], 'Ion Mobility',1 );
     next;
   }
 
@@ -567,6 +570,10 @@ while ( my $line = <ILIB> ) {
 
   # Retention time
   my $rt = $line[$idx{rt}];
+
+  # Ion Mobility
+  my $im = $line[$idx{IonMobility}];
+  push (@imarray, $im);
 
   # Fragment m/z
   my $fragment = $line[$idx{fragment}];
@@ -910,6 +917,11 @@ TITLE=$pepkey
   $rt{mseqs}->{$mseq} ||= {};
   $rt{mseqs}->{$mseq}->{$pre_z} ||= $rt;
 }
+my @imsort= sort{ $a <=> $b } @imarray ; 
+my $im_max= sprintf( '%0.4f', (pop@imsort));
+my $im_min=sprintf( '%0.4f', (shift@imsort));
+
+
 for my $ext ( keys( %extrema ) ) {
   $extrema{$ext} = sprintf( "%0.1f", $extrema{$ext} );
 }
@@ -1303,7 +1315,7 @@ $stats{mpeps} = scalar( keys( %{$seen{mpeps}} ) );
                         stddev_ppp
                         3_sigma_ppp
                         max_intensity_idx
-                        ), @checks, @swaths, 'problem_assays' );
+                        ), @checks, @swaths, 'problem_assays' , 'im_min', 'im_max' );
 
 
   my @checkvals = ();
@@ -1387,7 +1399,9 @@ $stats{mpeps} = scalar( keys( %{$seen{mpeps}} ) );
               $tmax_avg,
               @checkvals,
               @swathvals,
-              $problem_assays
+              $problem_assays,
+	      $im_min,
+              $im_max
              );
 
   my $defs = get_coldefs();
@@ -2033,7 +2047,9 @@ swa_ok => 'Number of fragment_ions that do not fall into same SWATH(s) as precur
 swa_conflict_assay => 'Number of precursor that have at least one failing fragment',
 swa_5 => 'Number of fragment ions that fall within 5 Th of precursor ion',
 swa_25 => 'Number of fragment ions that fall within 25 Th of precursor ion',
-problem_assays => 'Assays whose precursor or any fragment m/z values do not match SWATHs file or differ significantly from theoretical values'
+problem_assays => 'Assays whose precursor or any fragment m/z values do not match SWATHs file or differ significantly from theoretical values',
+im_min => 'Minimum ion mobility reported in library',
+im_max => 'Maximum ion mobility reported in library'
       );
   return \%defs;
 }
