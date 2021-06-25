@@ -919,8 +919,11 @@ TITLE=$pepkey
 }
 my @imsort= sort{ $a <=> $b } @imarray ; 
 my $im_max= sprintf( '%0.4f', (pop@imsort));
-my $im_min=sprintf( '%0.4f', (shift@imsort));
-
+my $im_min= sprintf( '%0.4f', (shift@imsort));
+if ( !defined $idx{IonMobility} ) {
+	$im_min = 'N/A';
+     	$im_max = 'N/A';
+   }
 
 for my $ext ( keys( %extrema ) ) {
   $extrema{$ext} = sprintf( "%0.1f", $extrema{$ext} );
