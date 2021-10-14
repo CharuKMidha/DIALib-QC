@@ -238,7 +238,7 @@ my %known_mods = (
 		'[Acetyl (Protein N-term)]' => {'mz' => 42.010565, 'aa' => 'x'},
 		'M[Acetyl +(Protein N-term)]' => {'mz' => 42.010565, 'aa' => 'm'},
 		'K[Acetyl (K)]' => {'mz' => 42.010565, 'aa' => 'k'},
-
+		'R[Acetyl (Protein N-term)]' => {'mz' => 42.010565, 'aa' => 'r'},
 		'A[Acetyl (Protein N-term)]' => {'mz' => 42.010565, 'aa' => 'a'},
 		'S[Acetyl (Protein N-term)]' => {'mz' => 42.010565, 'aa' => 's'},
 		'D[Acetyl (Protein N-term)]' => {'mz' => 42.010565, 'aa' => 'd'},
