@@ -128,18 +128,18 @@ while ( my $line=<FIL> ) {
 	}
 	
 	##p2 B POLT
-	if ($key =~ m/^pre_z/){
+	#if ($key =~ m/^pre_z/){
 
-		$R->run( q`totalfragions<-sum(Values)` );
-		$R->run(q` Values = round(Values*100/totalfragions,2)`);
-	        $R->run(q`Items_char= as.character(Items)`);
-		$R->run(q`df<-data.frame(Parameters_type=c(Items_char),Frequency=c(Values))`);
-		$R->run(q`p2<-ggplot(df, aes(Parameters_type, Frequency))+ theme_bw()+
-		geom_col(fill="#008080")+ xlab("Precursor charge")+
-		geom_text(aes(label = Frequency), size = 6, hjust = 0.5, vjust = 0, position = "stack", colour = 'black')+
-		ylab("Precursors in percent (%)")+ggtitle("Precursor charge")`);
-		@item_array = @val_array = ();	
-	}
+	#	$R->run( q`totalfragions<-sum(Values)` );
+	#	$R->run(q` Values = round(Values*100/totalfragions,2)`);
+	#       $R->run(q`Items_char= as.character(Items)`);
+	#	$R->run(q`df<-data.frame(Parameters_type=c(Items_char),Frequency=c(Values))`);
+	#	$R->run(q`p2<-ggplot(df, aes(Parameters_type, Frequency))+ theme_bw()+
+	#	geom_col(fill="#008080")+ xlab("Precursor charge")+
+	#	geom_text(aes(label = Frequency), size = 6, hjust = 0.5, vjust = 0, position = "stack", colour = 'black')+
+	#	ylab("Precursors in percent (%)")+ggtitle("Precursor charge")`);
+	#	@item_array = @val_array = ();	
+	#}
 
 
 	##p4 C/D PLOT
@@ -278,25 +278,25 @@ while ( my $line=<FIL> ) {
 		# geom_col(fill="#008080")+ xlab("Fragment ion") + ylab("Precursor in percent(%)")+
 		# ggtitle("Number of fragment ions per precursor")`); 
 	# }
-	###p11
-	# if ($key =~ m/Distinct_pre_z/){
-		# $R->run( q`totalfragions<-sum(Values)` );
-		# #$R->run(q` Values = signif(Values*100/totalfragions, digits =1)`);
-		# $R->run(q` Values = round((Values*100/totalfragions),0)`);
-		# #$R->run(q` Values = round(Values/1000,0)`);
-		# $R->run(q`df<-data.frame(Parameters_type=c(Items),Frequency=c(Values))`);
-		# $R->run(q`p11<-ggplot(df, aes(Parameters_type, Frequency))+ theme_bw()+
-		# geom_col(fill="#008080")+ xlab("Precursor charge")+
-		# geom_text(aes(label = Frequency), size = 6, hjust = 0.5, vjust = 0, position = "stack", colour = 'black')+
-		# ylab("Precursors in percent(%)")+ggtitle("Precursor charger")`);
-	# }
+	###p11 B PLOT
+	if ($key =~ m/Distinct_pre_z/){
+		 $R->run( q`totalfragions<-sum(Values)` );
+		 #$R->run(q` Values = signif(Values*100/totalfragions, digits =1)`);
+		 $R->run(q` Values = round((Values*100/totalfragions),0)`);
+		 #$R->run(q` Values = round(Values/1000,0)`);
+		 $R->run(q`df<-data.frame(Parameters_type=c(Items),Frequency=c(Values))`);
+		 $R->run(q`p11<-ggplot(df, aes(Parameters_type, Frequency))+ theme_bw()+
+		 geom_col(fill="#008080")+ xlab("Precursor charge")+
+		 geom_text(aes(label = Frequency), size = 6, hjust = 0.5, vjust = 0, position = "stack", colour = 'black')+
+		 ylab("Precursors in percent(%)")+ggtitle("Precursor charger")`);
+	 }
 		
 	}
 	
 if (-e $ARGV[1]){
-	$R->run(q`ggarrange(p1, p2, p3, p4, p5, p6, p7, p8, p9 , labels = c("A", "B", "C", "D", "E", "F", "G", "H", "I"), ncol = 3, nrow = 3)`);
+	$R->run(q`ggarrange(p1, p11, p3, p4, p5, p6, p7, p8, p9 , labels = c("A", "B", "C", "D", "E", "F", "G", "H", "I"), ncol = 3, nrow = 3)`);
 }else {
-	$R->run(q`ggarrange(p1, p2, p4, p5, p6, p7, p8, p9 , labels = c("A", "B", "C", "D", "E", "F", "G", "H"), ncol = 3, nrow = 3)`);
+	$R->run(q`ggarrange(p1, p11, p4, p5, p6, p7, p8, p9 , labels = c("A", "B", "C", "D", "E", "F", "G", "H"), ncol = 3, nrow = 3)`);
 }
 
 $R->run(q`dev.off()`);
