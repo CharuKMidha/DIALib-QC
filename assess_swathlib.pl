@@ -456,18 +456,18 @@ while ( my $line = <ILIB> ) {
     $idx{frg_z} = find_index( [qw(frg_z FragmentCharge ProductCharge)], 'Fragment ion charge', 1); 
     $idx{ion_s} = find_index( ['frg_type','FragmentType','FragmentIonType'], 'Ion series', 1 ); 
     $idx{ion_n} = find_index( ['frg_nr','FragmentNumber','FragmentSeriesNumber'], 'Ion series number', 1); 
-    $idx{mseq} = find_index( ['modification_sequence','FullUniModPeptideName', 'PeptideModifiedSequence', 'ModifiedPeptide','IntModifiedPeptide' , 'peptideModSeq' ], 'Modified peptide sequence' ); 
+    $idx{mseq} = find_index( ['modification_sequence','FullUniModPeptideName', 'PeptideModifiedSequence', 'ModifiedPeptide','IntModifiedPeptide' , 'peptideModSeq', 'ModifiedPeptideSequence'], 'Modified peptide sequence' ); 
     $idx{seq} = find_index( ['stripped_sequence','PeptideSequence', 'StrippedPeptide', 'peptide_sequence'], 'Stripped peptide sequence' ); 
     $idx{precursor} = find_index( ['Q1','PrecursorMz','q1'], 'Precursor m/z' ); 
     $idx{fragment} = find_index( ['Q3','ProductMz', 'FragmentMz','q3'], 'Fragment m/z' ); 
-    $idx{rt} = find_index( ['RT_detected','Tr_recalibrated', 'iRT Value', 'iRT', 'rt_detected', 'irt'], 'Retention time' ); 
+    $idx{rt} = find_index( ['RT_detected','Tr_recalibrated', 'iRT Value', 'iRT', 'rt_detected', 'irt', 'NormalizedRetentionTime'], 'Retention time' ); 
     $idx{pre_z} = find_index( [qw(prec_z PrecursorCharge)], 'Precursor ion charge' ); 
     # Missing value OK for these three
     $idx{protstr} = find_index( ['uniprot_id','protein_name','ProteinName','Protein Name','ProteinId', 'UniprotID', 'UniProtIds' ],'Protein name(s)',1 ); 
     $idx{decoy} = find_index( ['decoy'], 'Decoy',1 ); 
     $idx{lossType} = find_index( [qw( FragmentLossType ) ], 'Fragment neutral loss', 1 ); 
     $idx{transition_name} = find_index( ['transition_name'], 'transition_name',1 );
-    $idx{IonMobility} = find_index( ['IonMobility'], 'Ion Mobility',1 );
+    $idx{IonMobility} = find_index( ['IonMobility', 'PrecursorIonMobility'], 'Ion Mobility',1 );
     next;
   }
 

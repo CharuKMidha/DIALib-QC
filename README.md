@@ -56,6 +56,12 @@ DIALib-QC v1.0 Tool to assess the spectral ion libraries of PEAKVIEW,SPECTRONAUT
 	You can install the Statistics::R module as
 	
 		i) perl -MCPAN -e 'install Statistics::R'
+	
+	You also need to install ggplot2 and ggpubr in R consule
+		
+		install.packages("ggplot2")
+		install.packages("ggpubr"）
+		
 
 (B) Usage after installation: Assessing Library
 
